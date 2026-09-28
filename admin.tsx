@@ -1,0 +1,10 @@
+import {useEffect,useState} from 'react';
+import {ActivityIndicator,Alert,Text,View,StyleSheet,FlatList} from 'react-native';
+import {currentProfile,reports} from '../lib/admin';
+export default function Admin(){
+ const [profile,setProfile]=useState<any>(null),[items,setItems]=useState<any[]>([]),[busy,setBusy]=useState(true);
+ useEffect(()=>{(async()=>{try{const p=await currentProfile();setProfile(p);if(p?.role==='admin'||p?.role==='moderator')setItems(await reports())}catch(e:any){Alert.alert('Admin',e?.message??'Could not load dashboard.')}finally{setBusy(false)}})()},[]);
+ if(busy)return <View style={s.center}><ActivityIndicator/></View>;
+ if(!profile||!['admin','moderator'].includes(profile.role))return <View style={s.center}><Text style={s.denied}>Admin access required</Text><Text style={s.muted}>Your account does not have a moderation role.</Text></View>;
+ return <View style={s.wrap}><Text style={s.h}>FlexUni Admin</Text><Text style={s.sub}>Moderation & platform operations</Text><View style={s.stats}><View style={s.stat}><Text style={s.num}>{items.length}</Text><Text style={s.label}>Reports</Text></View><View style={s.stat}><Text style={s.num}>—</Text><Text style={s.label}>Pending</Text></View></View><FlatList data={items} keyExtractor={(x,i)=>x.id??String(i)} renderItem={({item})=><View style={s.card}><Text style={s.title}>{item.target_type??'Content'} report</Text><Text style={s.body}>{item.reason??''}</Text><Text style={s.muted}>{item.status??'open'}</Text></View>}/></View>}
+const s=StyleSheet.create({wrap:{flex:1,backgroundColor:'#F7F8FC',padding:20},center:{flex:1,backgroundColor:'#F7F8FC',alignItems:'center',justifyContent:'center',padding:25},denied:{fontSize:22,fontWeight:'900'},h:{fontSize:30,fontWeight:'900',marginTop:35},sub:{color:'#777D91',marginBottom:18},stats:{flexDirection:'row',gap:10,marginBottom:18},stat:{backgroundColor:'#fff',borderRadius:18,padding:18,flex:1},num:{fontSize:25,fontWeight:'900',color:'#4F46E5'},label:{color:'#777D91',marginTop:4},card:{backgroundColor:'#fff',padding:16,borderRadius:16,marginBottom:9},title:{fontWeight:'900'},body:{marginTop:6},muted:{color:'#777D91',marginTop:5}});

@@ -1,0 +1,26 @@
+{
+  "expo": {
+    "name": "FlexUni",
+    "slug": "flexuni",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "flexuni",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.flexuni.app"
+    },
+    "android": {
+      "package": "com.flexuni.app",
+      "edgeToEdgeEnabled": true
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "plugins": [
+      "expo-router"
+    ]
+  }
+}

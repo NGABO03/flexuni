@@ -1,0 +1,10 @@
+{
+  "name": "FlexUni \u2014 Your University Life, Simplified",
+  "short_name": "FlexUni",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F7F8FC",
+  "theme_color": "#4F46E5",
+  "description": "A global university platform for learning, opportunities, community and student services.",
+  "icons": []
+}

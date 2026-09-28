@@ -1,0 +1,4 @@
+import {Text,View,StyleSheet,ScrollView} from 'react-native';
+const items=[['08:00','Computer Science','Room A12'],['10:00','Mathematics','Lecture Hall 2'],['13:00','Study Group','Library'],['15:00','Project Work','Innovation Hub']];
+export default function Schedule(){return <ScrollView style={s.wrap}><Text style={s.h}>Schedule</Text><Text style={s.sub}>Today • Your academic day</Text>{items.map(x=><View style={s.card} key={x[0]}><Text style={s.time}>{x[0]}</Text><View><Text style={s.title}>{x[1]}</Text><Text style={s.muted}>{x[2]}</Text></View></View>)}</ScrollView>}
+const s=StyleSheet.create({wrap:{flex:1,backgroundColor:'#F7F8FC',padding:20},h:{fontSize:30,fontWeight:'900',marginTop:35},sub:{color:'#777D91',marginBottom:18},card:{backgroundColor:'#fff',borderRadius:18,padding:18,marginBottom:12,flexDirection:'row',gap:18},time:{fontWeight:'900',color:'#4F46E5',width:50},title:{fontWeight:'800',fontSize:16},muted:{color:'#7A8092',marginTop:4}});

@@ -1,0 +1,9 @@
+import {useState} from 'react';
+import {Alert,Text,TextInput,TouchableOpacity,View,StyleSheet} from 'react-native';
+import {router,useLocalSearchParams} from 'expo-router';
+import {reportContent} from '../lib/admin';
+export default function Report(){
+ const p=useLocalSearchParams<{type?:string,id?:string}>(),[reason,setReason]=useState(''),[details,setDetails]=useState(''),[busy,setBusy]=useState(false);
+ async function submit(){if(!reason.trim())return Alert.alert('Report','Please provide a reason.');try{setBusy(true);await reportContent(p.type??'content',p.id??'',reason,details);Alert.alert('Report submitted','Thank you. Our moderation team can review it.',[{text:'OK',onPress:()=>router.back()}])}catch(e:any){Alert.alert('Report',e?.message??'Could not submit report.')}finally{setBusy(false)}}
+ return <View style={s.wrap}><Text style={s.h}>Report content</Text><Text style={s.p}>Use reports for spam, harassment, scams, impersonation or other policy concerns.</Text><TextInput style={s.input} placeholder="Reason" value={reason} onChangeText={setReason}/><TextInput style={[s.input,{height:130}]} placeholder="Additional details (optional)" multiline textAlignVertical="top" value={details} onChangeText={setDetails}/><TouchableOpacity style={s.btn} disabled={busy} onPress={submit}><Text style={s.bt}>{busy?'Submitting…':'Submit report'}</Text></TouchableOpacity><TouchableOpacity onPress={()=>router.back()}><Text style={s.cancel}>Cancel</Text></TouchableOpacity></View>}
+const s=StyleSheet.create({wrap:{flex:1,backgroundColor:'#F7F8FC',padding:22},h:{fontSize:29,fontWeight:'900',marginTop:35},p:{color:'#777D91',lineHeight:21,marginVertical:12},input:{backgroundColor:'#fff',borderRadius:15,padding:15,marginBottom:10},btn:{backgroundColor:'#D14343',padding:17,borderRadius:15,alignItems:'center',marginTop:5},bt:{color:'#fff',fontWeight:'900'},cancel:{textAlign:'center',padding:18,fontWeight:'800',color:'#666'}});
